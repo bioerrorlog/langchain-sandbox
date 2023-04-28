@@ -1,5 +1,12 @@
-from langchain.llms import OpenAI
+from langchain.chat_models import ChatOpenAI
+from langchain.schema import (
+    AIMessage,
+    HumanMessage,
+    SystemMessage,
+)
 
-llm = OpenAI(temperature=0.9)
-text = "What would be a good company name for a company that makes colorful socks?"
-print(llm(text))
+chat = ChatOpenAI(temperature=0)
+
+response = chat([HumanMessage(content="Translate this sentence from English to French. I love programming.")])
+print(response)
+print(type(response))
