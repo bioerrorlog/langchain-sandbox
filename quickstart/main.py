@@ -1,17 +1,31 @@
-from langchain.agents import load_tools
-from langchain.agents import initialize_agent
-from langchain.agents import AgentType
-from langchain.chat_models import ChatOpenAI
-
-
-chat = ChatOpenAI(temperature=0)
-tools = load_tools(["terminal"])
-
-agent = initialize_agent(
-    tools,
-    chat,
-    agent=AgentType.CHAT_ZERO_SHOT_REACT_DESCRIPTION,
-    verbose=True
+from langchain.prompts import (
+    ChatPromptTemplate,
+    MessagesPlaceholder,
+    SystemMessagePromptTemplate,
+    HumanMessagePromptTemplate
 )
+from langchain.chains import ConversationChain
+from langchain.chat_models import ChatOpenAI
+from langchain.memory import ConversationBufferMemory
 
-agent.run("Who is the current terminal user?I would like to know the list of directories under that user's home directory.")
+prompt = ChatPromptTemplate.from_messages([
+    SystemMessagePromptTemplate.from_template("The following is a friendly conversation between a human and an AI. The AI is talkative and provides lots of specific details from its context. If the AI does not know the answer to a question, it truthfully says it does not know."),
+    MessagesPlaceholder(variable_name="history"),
+    HumanMessagePromptTemplate.from_template("{input}")
+])
+
+llm = ChatOpenAI(temperature=0)
+memory = ConversationBufferMemory(return_messages=True)
+conversation = ConversationChain(memory=memory, prompt=prompt, llm=llm)
+
+response = conversation.predict(input="Hi there!")
+print(response)
+# -> 'Hello! How can I assist you today?'
+
+response = conversation.predict(input="I'm doing well! Just having a conversation with an AI.")
+print(response)
+# -> "That sounds like fun! I'm happy to chat with you. Is there anything specific you'd like to talk about?"
+
+response = conversation.predict(input="Tell me about yourself.")
+print(response)
+# -> "Sure! I am an AI language model created by OpenAI. I was trained on a large dataset of text from the internet, which allows me to understand and generate human-like language. I can answer questions, provide information, and even have conversations like this one. Is there anything else you'd like to know about me?"
