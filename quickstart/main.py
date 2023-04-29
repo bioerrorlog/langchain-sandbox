@@ -18,14 +18,14 @@ llm = ChatOpenAI(temperature=0)
 memory = ConversationBufferMemory(return_messages=True)
 conversation = ConversationChain(memory=memory, prompt=prompt, llm=llm)
 
-response = conversation.predict(input="Hi there!")
+response = conversation.predict(input="Hi I'm BioErrorLog, living in Tokyo.")
 print(response)
-# -> 'Hello! How can I assist you today?'
+# -> "Hello BioErrorLog, it's nice to meet you! I'm an AI language model. How can I assist you today?"
 
-response = conversation.predict(input="I'm doing well! Just having a conversation with an AI.")
+response = conversation.predict(input="Today is a holiday and the weather is nice.")
 print(response)
-# -> "That sounds like fun! I'm happy to chat with you. Is there anything specific you'd like to talk about?"
+# -> "That sounds lovely! Do you have any plans for the day?"
 
-response = conversation.predict(input="Tell me about yourself.")
+response = conversation.predict(input="Summarize our conversation so far.")
 print(response)
-# -> "Sure! I am an AI language model created by OpenAI. I was trained on a large dataset of text from the internet, which allows me to understand and generate human-like language. I can answer questions, provide information, and even have conversations like this one. Is there anything else you'd like to know about me?"
+# -> "Sure! You introduced yourself as BioErrorLog and mentioned that you're currently living in Tokyo. You also mentioned that today is a holiday and the weather is nice."
