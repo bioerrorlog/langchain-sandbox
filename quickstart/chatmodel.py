@@ -7,7 +7,11 @@ from langchain.schema import (
 
 chat = ChatOpenAI(temperature=0)
 
-response = chat([HumanMessage(content="Translate this sentence from English to French. I love programming.")])
+messages = [
+    SystemMessage(content="You are a helpful assistant that translates English to French."),
+    HumanMessage(content="Translate this sentence from English to French. I love programming.")
+]
+response = chat(messages)
 # -> AIMessage(content="J'aime programmer.", additional_kwargs={})
 
 print(response)  # content="J'aime programmer." additional_kwargs={}
