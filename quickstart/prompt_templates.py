@@ -14,10 +14,7 @@ human_message_prompt = HumanMessagePromptTemplate.from_template(human_template)
 
 chat_prompt = ChatPromptTemplate.from_messages([system_message_prompt, human_message_prompt])
 
-# get a chat completion from the formatted messages
-response = chat(chat_prompt.format_prompt(input_language="English",
-                                          output_language="French", text="I love programming.").to_messages())
-# -> AIMessage(content="J'aime programmer.", additional_kwargs={})
-
-print(response)  # content="J'aime programmer." additional_kwargs={}
-print(type(response))  # <class 'langchain.schema.AIMessage'>
+format_prompt = chat_prompt.format_prompt(input_language="English",
+                                          output_language="French", text="I love programming.").to_messages()
+print(format_prompt)
+# -> [SystemMessage(content='You are a helpful assistant that translates English to French.', additional_kwargs={}), HumanMessage(content='I love programming.', additional_kwargs={})]
