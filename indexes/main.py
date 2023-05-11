@@ -6,12 +6,13 @@ from langchain.indexes import VectorstoreIndexCreator
 
 llm = ChatOpenAI(temperature=0)
 
-loader = TextLoader('./data/hashire_merosu.txt', encoding='shift_jis')
+loader = TextLoader('./data/hashire_merosu.txt')
 # loader = TextLoader('./data/bocchan.txt', encoding='shift_jis')
 # loader = TextLoader('./data/melos.txt', encoding='utf8')
 index = VectorstoreIndexCreator(
     # text_splitter=TokenTextSplitter()
 ).from_loaders([loader])
 
-query = "メロスは間に合いましたか？"
+query = "セリヌンティウスは誰？"
+# query = "メロスは間に合いましたか？"
 print(index.query(question=query, llm=llm))
